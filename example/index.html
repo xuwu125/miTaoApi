@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Api Test</title>
+  <!-- import CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <style type="text/css">
+    .btn-block {
+      display: block;
+      margin-top: 10px;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <el-container>
+      <el-header>
+        <h1>Test Api for mitao</H1>
+      </el-header>
+      <el-main>
+        <el-row v-for="api in apis" :key="api.apiName" :gutter="20">
+          <el-col :span="20" :offset="2">
+            <el-button :type="api.btnType" class="btn-block" round @click="callApi(api)">{{ api.title }}
+              <span v-if="api.apiName">【{{ api.apiName }}】</span>
+            </el-button>
+          </el-col>
+        </el-row>
+        <el-dialog :visible.sync="dialog.visible" title="dialog.title">
+          <p>{{ dialog.content }}</p>
+        </el-dialog>
+      </el-main>
+    </el-container>
+  </div>
+</body>
+<!-- import mitao api common file -->
+<script src="../lib/mitaoApi.js"></script>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+  window.vm = new Vue({
+    el: '#app',
+    data: {
+        dialog: {
+          visible: false,
+          title: 'Dialog',
+          content: 'text'
+        },
+        lastColor: '',
+        lastText: '',
+        roundColors: 'primary/success/warning/danger/info'.split('/'),
+        roundTexts: '内容1/内容2/内容3/内容4/这是一个不一样的内容'.split('/'),
+        apis: [{
+            title: '本按点击不会有任何反应',
+            type: '',
+            apiName: '',
+            params: {}
+          },
+          {
+            title: '打开新窗口',
+            type: 'apiTest',
+            apiName: 'openWindow',
+            params: {
+              url: 'http://m.baidu.com/'
+            }
+          },
+          {
+            title: '关闭窗口',
+            type: 'apiTest',
+            apiName: 'closeWinow',
+            params: {}
+          },
+          {
+            title: '商品详情',
+            type: 'apiTest',
+            apiName: 'showGoodsInfo',
+            params: {
+              id: 2222
+            }
+          },
+          {
+            title: '设置关闭前事件',
+            type: 'apiTest',
+            apiName: 'closeWindowBefore',
+            params: {}
+          },
+          {
+            title: '设置窗口标题',
+            type: 'apiTest',
+            apiName: 'setTitle',
+            params: {
+              title: '这是新窗口标题'
+            }
+          },
+          {
+            title: '显示我的订单',
+            type: 'apiTest',
+            apiName: 'showMyOrders',
+            params: {}
+          },
+          {
+            title: '显示我的蜜桃',
+            type: 'apiTest',
+            apiName: 'showMyMitao',
+            params: {}
+          },
+          {
+            title: '显示我的余额',
+            type: 'apiTest',
+            apiName: 'showMyMoney',
+            params: {}
+          },
+          {
+            title: '显示帮助',
+            type: 'apiTest',
+            apiName: 'showHelp',
+            params: {}
+          },
+          {
+            title: '复制一段内容',
+            type: 'apiTest',
+            apiName: 'xCopy',
+            params: {
+              text: '这是一段复制的内容'
+            }
+          },
+          {
+            title: '调用二维码扫描',
+            type: 'apiTest',
+            apiName: 'openQrCode',
+            params: {
+              isReturn: function () {
+                return [true, false][this.roundInt(0, 1)]
+              }
+            }
+          },
+          {
+            title: '请求 Api 接口',
+            type: 'apiTest',
+            apiName: 'requestApi',
+            params: {
+              apiPath: '/app/goods/info',
+              method: 'get',
+              params: {
+                goods_id: 1630
+              }
+            }
+          },
+          {
+            title: '分享接口',
+            type: 'apiTest',
+            apiName: 'share',
+            params: {
+              shareType:'wechat',
+              shareData:{
+                type:'WXSceneSession',
+                title:"陕西大荔",
+                description:"陕西大荔冬枣一级果 5斤装",
+                webpageUrl:"http://h5.smallmitao.com/index.html#/?id=1630",
+                imageUrl:'http://mp.smallmitao.com//data/gallery_album/857/thumb_img/1536229608406664015.jpg'
+              }
+            }
+          }
+        ]
+    },
+    methods: {
+      roundInt(min, max) {
+        var r = Math.floor(Math.random() * (max - min + 1) + min)
+        console.log('rund int ', r)
+        return r;
+      },
+      getParams(o) {
+        var no = {}
+        for (var i in o) {
+          var oi = o[i]
+          no[i] = typeof (oi) == 'function' ? oi() : oi
+        }
+        return no
+      },
+      roundColor() {
+        var rc = this.roundColors[this.roundInt(0, this.roundColors.length - 1)]
+        if (rc == this.lastColor) {
+          return this.roundColor()
+        }
+        this.lastColor = rc;
+        return rc;
+      },
+      roundText:function() {
+        var rc = this.roundTexts[this.roundInt(0, this.roundTexts.length - 1)]
+        if (rc == this.lastText) {
+          return this.roundText()
+        }
+        this.lastText = rc;
+        return rc;
+      },
+      callApi(api) {
+        this.$message('请求接口:' + api.apiName+' 请求参数：'+JSON.stringify(api.params))
+        window.mitaoApi.invoke(api.apiName,api.params,function(res){
+          showResult('Api 接口返回 ', JSON.stringify(res))
+        })
+      },
+      showResult(title, content) {
+        this.dialog.title = title
+        this.dialog.content = content
+      }
+    },
+    beforeCreate() {
+
+    },
+    created() {
+      this.apis.map(item => {
+        item.btnType = this.roundColor()
+        return item
+      })
+      window.mitaoApi.ready(function () {
+        console.log('window.mitaoApi.ready yes')
+        window.mitaoApi.invoke('dialog', {
+          type: 'loading',
+          text: '正在加载测试...',
+          autoCloseTime: 4
+        })
+      })
+    },
+  })
+</script>
+
+</html>
