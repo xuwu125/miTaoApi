@@ -1,0 +1,24 @@
+{
+  "name": "jsapi",
+  "version": "1.0.0",
+  "description": "js api and doc",
+  "main": "index.js",
+  "directories": {
+    "example": "example",
+    "lib": "lib"
+  },
+  "scripts": {
+    "mini":"uglifyjs lib/mitaoApi.js -m -o lib/mitaoApi.mini.js && ls  -al lib/*",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.smallmitao.com:xuwu/jsapi.git"
+  },
+  "keywords": [
+    "js",
+    "api"
+  ],
+  "author": "xuwu125@gmail.com",
+  "license": "ISC"
+}
