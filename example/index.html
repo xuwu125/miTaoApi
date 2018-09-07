@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Api Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" >
   <!-- import CSS -->
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
   <style type="text/css">
@@ -11,6 +12,26 @@
       display: block;
       margin-top: 10px;
       width: 100%;
+    }
+    .text {
+      font-size: 14px;
+    }
+  
+    .item {
+      margin-bottom: 18px;
+    }
+  
+    .clearfix:before,
+    .clearfix:after {
+      display: table;
+      content: "";
+    }
+    .clearfix:after {
+      clear: both
+    }
+  
+    .box-card {
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -23,7 +44,7 @@
       </el-header>
       <el-main>
         <el-row v-for="api in apis" :key="api.apiName" :gutter="20">
-          <el-col :span="20" :offset="2">
+          <el-col :span="22" :offset="1">
             <el-button :type="api.btnType" class="btn-block" round @click="callApi(api)">{{ api.title }}
               <span v-if="api.apiName">【{{ api.apiName }}】</span>
             </el-button>
@@ -32,7 +53,18 @@
         <el-dialog :visible.sync="dialog.visible" title="dialog.title">
           <p>{{ dialog.content }}</p>
         </el-dialog>
+
+        <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <span>运行日志</span>
+              <el-button @click="logs=[];log('清空日志成功')" style="float: right; padding: 3px 0" type="text">清空日志</el-button>
+            </div>
+            <div v-for="o in logs" class="text item">
+              {{o.time }} {{o.text}}
+            </div>
+          </el-card>
       </el-main>
+      
     </el-container>
   </div>
 </body>
@@ -166,9 +198,13 @@
               }
             }
           }
-        ]
+        ],
+        logs:[]
     },
     methods: {
+      log(text){
+        this.logs.unshift({time:new Date().toLocaleString(),text:text})
+      },
       roundInt(min, max) {
         var r = Math.floor(Math.random() * (max - min + 1) + min)
         console.log('rund int ', r)
@@ -199,9 +235,19 @@
         return rc;
       },
       callApi(api) {
+        
+        if(api.type == ''){
+          return 
+        }
+        this.log('请求接口: '+api.apiName)
         this.$message('请求接口:' + api.apiName+' 请求参数：'+JSON.stringify(api.params))
-        window.mitaoApi.invoke(api.apiName,api.params,function(res){
-          showResult('Api 接口返回 ', JSON.stringify(res))
+        window.mitaoApi.invoke(api.apiName,this.getParams(api.params),function(res){
+          this.log('接口返回: '+JSON.stringify(res))
+          showResult('Api 接口返回 ', [
+            '<p>状态：'+res.status+'</p>',
+            '<p>时间：'+new Date(res.time).toLocaleString()+'</p>',
+            '<p>数据：'+res.status+'</p>',
+          ].join('\n'))
         })
       },
       showResult(title, content) {
@@ -214,12 +260,15 @@
 
     },
     created() {
+      this.log('启动调试样例成功')
       this.apis.map(item => {
         item.btnType = this.roundColor()
         return item
       })
+      this.log('初始化数据样例成功')
       window.mitaoApi.ready(function () {
         console.log('window.mitaoApi.ready yes')
+        this.log('初始化回调: mitaoApi.ready 成功')
         window.mitaoApi.invoke('dialog', {
           type: 'loading',
           text: '正在加载测试...',

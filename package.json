@@ -11,6 +11,9 @@
     "mini":"uglifyjs lib/mitaoApi.js -m -o lib/mitaoApi.mini.js && ls  -al lib/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "devDependencies": {
+    "uglifyjs":"*"
+  },
   "repository": {
     "type": "git",
     "url": "git@gitlab.smallmitao.com:xuwu/jsapi.git"
