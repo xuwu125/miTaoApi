@@ -240,8 +240,9 @@
           return 
         }
         this.log('请求接口: '+api.apiName)
-        this.$message('请求接口:' + api.apiName+' 请求参数：'+JSON.stringify(api.params))
-        window.mitaoApi.invoke(api.apiName,this.getParams(api.params),function(res){
+        var params = this.getParams(api.params)
+        this.$message('请求接口:' + api.apiName+' 请求参数：'+JSON.stringify(params))
+        window.mitaoApi.invoke(api.apiName,params,function(res){
           this.log('接口返回: '+JSON.stringify(res))
           showResult('Api 接口返回 ', [
             '<p>状态：'+res.status+'</p>',
