@@ -75,6 +75,11 @@
 <!-- import JavaScript -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script>
+  function roundInt(min, max) {
+      var r = Math.floor(Math.random() * (max - min + 1) + min)
+      console.log('rund int ', r)
+      return r;
+  }
   window.vm = new Vue({
     el: '#app',
     data: {
@@ -167,7 +172,7 @@
             apiName: 'openQrCode',
             params: {
               isReturn: function () {
-                return [true, false][this.roundInt(0, 1)]
+                return [true, false][roundInt(0, 1)]
               }
             }
           },
