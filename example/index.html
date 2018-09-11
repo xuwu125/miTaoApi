@@ -167,7 +167,7 @@
             }
           },
           {
-            title: '复制一段内容',
+            title: '显示订单详情',
             type: 'apiTest',
             apiName: 'showOrderInfo',
             params: {
@@ -191,7 +191,7 @@
             params: {
               urls: [
               {
-                url:'http://static.smallmitao.com/pic/1.jpg',
+                url:'http://mp.smallmitao.com/data/gallery_album/857/thumb_img/1536229608406664015.jpg',
                 type:"image/jpg"
               },
               {
@@ -224,6 +224,23 @@
             }
           },
           {
+            title: '遮罩提示框',
+            type: 'apiTest',
+            apiName: 'dialog',
+            params: {
+              type: function () {
+                return ["info", "error","success","loading"][roundInt(0, 1)];
+              },
+              autoCloseTime:function(){
+                return roundInt(1,10);
+              },
+              text:function (argument) {
+                return "这是内容-"+roundInt(1,100)
+              }
+
+            }
+          },
+          {
             title: '分享接口',
             type: 'apiTest',
             apiName: 'share',
@@ -234,7 +251,7 @@
                 title:"陕西大荔",
                 description:"陕西大荔冬枣一级果 5斤装",
                 webpageUrl:"http://h5.smallmitao.com/index.html#/?id=1630",
-                imageUrl:'http://mp.smallmitao.com//data/gallery_album/857/thumb_img/1536229608406664015.jpg'
+                imageUrl:'http://mp.smallmitao.com/data/gallery_album/857/thumb_img/1536229608406664015.jpg'
               }
             }
           }
