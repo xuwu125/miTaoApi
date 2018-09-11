@@ -109,7 +109,7 @@
           {
             title: '关闭窗口',
             type: 'apiTest',
-            apiName: 'closeWinow',
+            apiName: 'closeWindow',
             params: {}
           },
           {
@@ -164,6 +164,41 @@
             apiName: 'xCopy',
             params: {
               text: '这是一段复制的内容'
+            }
+          },
+          {
+            title: '复制一段内容',
+            type: 'apiTest',
+            apiName: 'showOrderInfo',
+            params: {
+              order_id: 333,
+              primary:1
+            }
+          },
+          {
+            title: '支付一个订单',
+            type: 'apiTest',
+            apiName: 'payOrder',
+            params: {
+              order_id: 333,
+              primary:1
+            }
+          },
+          {
+            title: '下载图片和视频',
+            type: 'apiTest',
+            apiName: 'download',
+            params: {
+              urls: [
+              {
+                url:'http://static.smallmitao.com/pic/1.jpg',
+                type:"image/jpg"
+              },
+              {
+                url:'http://static.smallmitao.com/video/2.mp4',
+                type:"video/mp4"
+              }
+              ]
             }
           },
           {
