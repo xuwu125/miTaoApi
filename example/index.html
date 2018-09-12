@@ -80,7 +80,6 @@
           </div>
           <div class="text item">
               <el-input v-model="custom.requestApi.apiPath" placeholder="接口路径"></el-input>
-              <el-input v-model="custom.requestApi.method" placeholder="接口路径"></el-input>
               <el-select v-model="custom.requestApi.method" placeholder="请选择请求方式">
                 <el-option
                   v-for="item in requestMethods"
@@ -89,7 +88,7 @@
                   :value="item.value">
                 </el-option>
               </el-select>
-              <el-input type="textarea" :rows="5" value="JSON.stringify(custom.requestApi.params,'',4)" @change="changeValue" placeholder="请求参数，请以 JSON 格式书写"></el-input>
+              <el-input type="textarea" :rows="5" :value="JSON.stringify(custom.requestApi.params,'',4)" @change="changeValue" placeholder="请求参数，请以 JSON 格式书写"></el-input>
               <el-alert title="请求参数，请以 JSON 格式书写" type="info"></el-alert>
           </div>
         </el-card>
@@ -358,7 +357,7 @@
         }
       },
       callCustomApi(api){
-        callApi({
+        this.callApi({
           type: 'apiTest',
           apiName: api,
           params: this.custom[api]
