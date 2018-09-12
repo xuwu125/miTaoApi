@@ -31,7 +31,7 @@
     }
   
     .box-card {
-      margin-top: 10px;
+      margin: 10px auto;
     }
   </style>
 </head>
@@ -55,14 +55,44 @@
         </el-dialog>
 
         <el-card class="box-card">
-            <div slot="header" class="clearfix">
-              <span>运行日志</span>
-              <el-button @click="logs=[];log('清空日志成功')" style="float: right; padding: 3px 0" type="text">清空日志</el-button>
-            </div>
-            <div v-for="o in logs" class="text item">
-              {{o.time }} {{o.text}}
-            </div>
-          </el-card>
+          <div slot="header" class="clearfix">
+            <span>运行日志</span>
+            <el-button @click="logs=[];log('清空日志成功')" style="float: right; padding: 3px 0" type="text">清空日志</el-button>
+          </div>
+          <div v-for="o in logs" class="text item">
+            {{o.time }} {{o.text}}
+          </div>
+        </el-card>
+
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>showGoodsInfo</span>
+            <el-button @click="callCustomApi('showGoodsInfo')" style="float: right; padding: 3px 0" type="text">发起调用</el-button>
+          </div>
+          <div  class="text item">
+              <el-input v-model="custom.showGoodsInfo.id" placeholder="商品 ID"></el-input>
+          </div>
+        </el-card>
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>requestApi</span>
+            <el-button @click="callCustomApi('requestApi')" style="float: right; padding: 3px 0" type="text">发起调用</el-button>
+          </div>
+          <div class="text item">
+              <el-input v-model="custom.requestApi.apiPath" placeholder="接口路径"></el-input>
+              <el-input v-model="custom.requestApi.method" placeholder="接口路径"></el-input>
+              <el-select v-model="custom.requestApi.method" placeholder="请选择请求方式">
+                <el-option
+                  v-for="item in requestMethods"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <el-input type="textarea" :rows="5" value="JSON.stringify(custom.requestApi.params,'',4)" @change="changeValue" placeholder="请求参数，请以 JSON 格式书写"></el-input>
+              <el-alert title="请求参数，请以 JSON 格式书写" type="info"></el-alert>
+          </div>
+        </el-card>
       </el-main>
       
     </el-container>
@@ -88,6 +118,15 @@
           title: 'Dialog',
           content: 'text'
         },
+        requestMethods:[
+          {
+            value: 'get',
+            label: 'GET'
+          }, {
+            value: 'post',
+            label: 'POST'
+          }
+        ],
         lastColor: '',
         lastText: '',
         roundColors: 'primary/success/warning/danger/info'.split('/'),
@@ -239,7 +278,19 @@
             }
           }
         ],
-        logs:[]
+        logs:[],
+        custom:{
+          showGoodsInfo:{
+            id:''
+          },
+          requestApi: {
+            apiPath: '/app/goods/info',
+            method: 'get',
+            params: {
+              goods_id: 1630
+            }
+          }
+        }
     },
     methods: {
       log(text){
@@ -284,7 +335,7 @@
         this.$message('请求接口:' + api.apiName+' 请求参数：'+JSON.stringify(params))
         window.mitaoApi.invoke(api.apiName,params,function(res){
           this.log('接口返回: '+JSON.stringify(res))
-          showResult('Api 接口返回 ', [
+          showResult('Api 接口返回', [
             '<p>状态：'+res.status+'</p>',
             '<p>时间：'+new Date(res.time).toLocaleString()+'</p>',
             '<p>数据：'+res.status+'</p>',
@@ -295,6 +346,23 @@
         this.dialog.visible = true
         this.dialog.title = title
         this.dialog.content = content
+      },
+      changeValue(data){
+        try{
+          this.custom.requestApi.params=JSON.parse(data)
+        }catch(e){
+          this.$message({
+            type:'error',
+            message:'参数值必须为 JSON 格式，错误如下：'+e
+          })
+        }
+      },
+      callCustomApi(api){
+        callApi({
+          type: 'apiTest',
+          apiName: api,
+          params: this.custom[api]
+        })
       }
     },
     beforeCreate() {
