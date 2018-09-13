@@ -1,11 +1,9 @@
 {
-  "name": "jsapi",
+  "name": "mitaoApi",
   "version": "1.0.0",
-  "description": "js api and doc",
+  "description": "MitaoApi",
   "main": "index.js",
   "directories": {
-    "example": "example",
-    "lib": "lib"
   },
   "scripts": {
     "mini":"uglifyjs lib/mitaoApi.js -m -o lib/mitaoApi.mini.js && ls  -al lib/*",
@@ -20,8 +18,12 @@
   },
   "keywords": [
     "js",
-    "api"
+    "api",
+    "mitao"
   ],
-  "author": "xuwu125@gmail.com",
-  "license": "ISC"
+  "author": {
+    "name":"ChangheHiter",
+    "email": "xuwu125@gmail.com"
+  },
+  "license": "MIT"
 }
