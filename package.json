@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.smallmitao.com:xuwu/jsapi.git"
+    "url": "https://github.com/xuwu125/miTaoApi.git"
   },
   "keywords": [
     "js",
@@ -23,7 +23,11 @@
   ],
   "author": {
     "name":"ChangheHiter",
-    "email": "xuwu125@gmail.com"
+    "email": "xuwu125@gmail.com",
+    "url":"https://github.com/xuwu125"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "registry":"https://registry.npmjs.org/"
+  }
 }
