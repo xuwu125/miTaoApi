@@ -345,12 +345,13 @@
         if(api.type == ''){
           return 
         }
-        this.log('请求接口: '+api.apiName)
+        var self = this
+        self.log('请求接口: '+api.apiName)
         var params = this.getParams(api.params)
-        this.$message('请求接口:' + api.apiName+' 请求参数：'+JSON.stringify(params))
+        self.$message('请求接口:' + api.apiName+' 请求参数：'+JSON.stringify(params))
         window.mitaoApi.invoke(api.apiName,params,function(res){
-          this.log('接口返回: '+JSON.stringify(res))
-          this.showResult('Api 接口返回', [
+          self.log('接口返回: '+JSON.stringify(res))
+          self.showResult('Api 接口返回', [
             '<p>状态：'+res.status+'</p>',
             '<p>时间：'+new Date(res.time).toLocaleString()+'</p>',
             '<p>数据：'+res.status+'</p>',
