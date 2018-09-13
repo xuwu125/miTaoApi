@@ -1,7 +1,7 @@
 {
-  "name": "mitao-api",
+  "name": "mitao-h5-api",
   "version": "1.0.0",
-  "description": "MitaoApi",
+  "description": "MitaoApi for h5",
   "main": "index.js",
   "directories": {
   },
@@ -26,8 +26,5 @@
     "email": "xuwu125@gmail.com",
     "url":"https://github.com/xuwu125"
   },
-  "license": "MIT",
-  "publishConfig": {
-    "registry":"https://registry.npmjs.org/"
-  }
+  "license": "ISC"
 }
