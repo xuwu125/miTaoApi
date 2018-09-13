@@ -354,7 +354,7 @@
           self.showResult('Api 接口返回', [
             '<p>状态：'+res.status+'</p>',
             '<p>时间：'+new Date(res.time).toLocaleString()+'</p>',
-            '<p>数据：<xmp>'+res.data+'</xmp></p>',
+            '<p>数据：<xmp>'+JSON.stringify(res.data,'',2)+'</xmp></p>',
           ].join('\n'))
         })
       },
