@@ -391,7 +391,7 @@
         return item
       })
       this.log('初始化数据样例成功')
-      window.mitaoApi.ready(function () {
+      window.mitaoApi.loaded(function () {
         console.log('window.mitaoApi.ready yes')
         this.log('初始化回调: mitaoApi.ready 成功')
         window.mitaoApi.invoke('dialog', {
