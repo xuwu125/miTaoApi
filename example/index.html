@@ -50,7 +50,7 @@
             </el-button>
           </el-col>
         </el-row>
-        <el-dialog :visible.sync="dialog.visible" title="dialog.title">
+        <el-dialog fullscreen="true" :visible.sync="dialog.visible" title="dialog.title">
           <div v-html="dialog.content"></div>
         </el-dialog>
 
@@ -353,7 +353,7 @@
           self.log('接口返回: '+JSON.stringify(res))
           self.showResult('Api 接口返回', [
             '<p>状态：'+res.status+'</p>',
-            '<p>时间：'+new Date(res.time).toLocaleString()+'</p>',
+            '<p>时间：'+new Date(res.time*1000).toLocaleString()+'</p>',
             '<p>数据：<xmp>'+JSON.stringify(res.data,'',2)+'</xmp></p>',
           ].join('\n'))
         })
