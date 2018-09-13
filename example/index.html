@@ -51,7 +51,7 @@
           </el-col>
         </el-row>
         <el-dialog :visible.sync="dialog.visible" title="dialog.title">
-          <p>{{ dialog.content }}</p>
+          <div v-html="dialog.content"></div>
         </el-dialog>
 
         <el-card class="box-card">
@@ -354,7 +354,7 @@
           self.showResult('Api 接口返回', [
             '<p>状态：'+res.status+'</p>',
             '<p>时间：'+new Date(res.time).toLocaleString()+'</p>',
-            '<p>数据：'+res.status+'</p>',
+            '<p>数据：<xmp>'+res.data+'</xmp></p>',
           ].join('\n'))
         })
       },
