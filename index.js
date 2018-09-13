@@ -109,7 +109,7 @@
         var callbackName = apiname
         switch (apiname) {
           case 'requestApi':
-            callbackName = [apiname, randomInt(1000, 99999)].join('_')
+            callbackName = [apiname, self.randomInt(1000, 99999)].join('_')
             param.callbackName = callbackName
             break;
         }
