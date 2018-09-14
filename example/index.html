@@ -397,15 +397,17 @@
 
     },
     created() {
-      this.log('启动调试样例成功')
-      this.apis.map(item => {
-        item.btnType = this.roundColor()
+      var self = this
+      self.log('启动调试样例成功')
+      self.apis.map(item => {
+        item.btnType = self.roundColor()
         return item
       })
-      this.log('初始化数据样例成功')
+      self.log('初始化数据样例成功')
       window.mitaoApi.loaded(function () {
-        console.log('window.mitaoApi.ready yes')
-        this.log('初始化回调: mitaoApi.ready 成功')
+        alert('loaded ok');
+        console.log('window.mitaoApi.loaded yes')
+        self.log('初始化回调: mitaoApi.loaded 成功')
         window.mitaoApi.invoke('dialog', {
           type: 'loading',
           text: '正在加载测试...',
